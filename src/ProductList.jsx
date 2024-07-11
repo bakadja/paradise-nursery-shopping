@@ -1,6 +1,17 @@
-import React, { useState,useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import './ProductList.css'
+import { useDispatch } from 'react-redux';
+import { addItem } from './CreatSlice';
+
 function ProductList() {
+
+    const [addedToCart, setAddedToCart] = useState({});
+    const dispatch = useDispatch();
+    
+    // Affiche l'état `addedToCart` dans la console chaque fois qu'il change
+    // useEffect(() => {
+    //     console.log('Added to cart:', addedToCart);
+    // }, [addedToCart]);
   
     const plantsArray = [
         {
@@ -215,20 +226,29 @@ function ProductList() {
     padding: '15px',
     display: 'flex',
     justifyContent: 'space-between',
-    alignIems: 'center',
+    alignItems: 'center',
     fontSize: '20px',
    }
+
    const styleObjUl={
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '1100px',
    }
+
    const styleA={
     color: 'white',
     fontSize: '30px',
     textDecoration: 'none',
    }
+
+   const handleAddedToCart = (plant) => {
+        dispatch(addItem(plant));    
+        setAddedToCart( (prevState) => ({...prevState, [plant.name]: true}));
+        console.log('Added to cart:', plant);
+    }
+
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -251,7 +271,26 @@ function ProductList() {
         </div>
 
         <div className="product-grid">
-
+            {
+                plantsArray.map((category, index) => (
+                    <div key={index}>
+                        <h2 style={{textAlign: "center"}}>{category.category}</h2>
+                        <div className="product-list">
+                            {
+                                category.plants.map((plant, index) => (
+                                    <div key={index} className="product-card">
+                                        <img className="product-image" src={plant.image} alt={plant.name} />
+                                            <h3 className="product-title">{plant.name}</h3>
+                                            <p className="product-price">{plant.cost}</p>
+                                            {/* {console.log('index [ProductList]',index)} */}
+                                            <button className="product-button" onClick={() => handleAddedToCart(plant)}>Add to Cart</button>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                ))
+            }
 
         </div>
 
