@@ -19,7 +19,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-background-color: lightgrey;
+  background-color: lightgrey;
+  background-image: url("assets/greenhouse.jpg");
 }
 
 .content {
