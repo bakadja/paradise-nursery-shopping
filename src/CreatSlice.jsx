@@ -9,7 +9,7 @@ export const CreatSlice = createSlice({
     addItem: (state, action) => {
 
       const { name, image, cost } = action.payload;
-      console.log('name',name, 'image', image, 'cost', cost)
+      console.log(`[createSlice] name: ${name}, image: ${image}, cost: ${cost}`)
       const foundItem = state.items.find(item => item.name === name);
 
       if (foundItem) {
@@ -17,7 +17,6 @@ export const CreatSlice = createSlice({
       } else {
         state.items.push({ name, image, cost, quantity: 1 });
       }
-      
     },
     removeItem: (state, action) => {
       
@@ -28,7 +27,7 @@ export const CreatSlice = createSlice({
       
       const { name, quantity } = action.payload;
       console.log('name',name, 'quantity', quantity);
-
+      
       const itemToUpdate = state.items.find(item => item.name === name);
       
       if (itemToUpdate) {
