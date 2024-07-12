@@ -9,6 +9,7 @@ export const CreatSlice = createSlice({
     addItem: (state, action) => {
 
       const { name, image, cost } = action.payload;
+      console.log('name',name, 'image', image, 'cost', cost)
       const foundItem = state.items.find(item => item.name === name);
 
       if (foundItem) {
@@ -26,6 +27,7 @@ export const CreatSlice = createSlice({
     updateQuantity: (state, action) => {
       
       const { name, quantity } = action.payload;
+      console.log('name',name, 'quantity', quantity);
 
       const itemToUpdate = state.items.find(item => item.name === name);
       
