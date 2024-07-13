@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import "./ProductList.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "./CreatSlice";
@@ -7,13 +7,9 @@ import Cart from "./CartItem";
 function ProductList() {
   const [addedToCart, setAddedToCart] = useState({});
   const [showTarget, setShowTarget] = useState(false);
+ 
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.items);
-
-  // Reset addedToCart state when cart is empty
-  useEffect(() => {
-    cart.length == 0 && setAddedToCart({});
-  }, [cart]);
 
   const plantsArray = [
     {
@@ -297,6 +293,10 @@ function ProductList() {
 
   const handleContinueShopping = () => {
     setShowTarget(false);
+    
+    // Reset the addedToCart state
+   const newState = cart.reduce((acc, item) => ({ ...acc, [item.name]: true }), {});
+   setAddedToCart(newState);
   };
 
   return (
@@ -373,6 +373,7 @@ function ProductList() {
               <div className="product-list">
                 {category.plants.map((plant, index) => (
                   <div key={index} className="product-card">
+                    {/* {console.log(plant)} */}
                     <img
                       className="product-image"
                       src={plant.image}
@@ -383,9 +384,9 @@ function ProductList() {
                     <p className="product-description">{plant.description}</p>
                     <button
                       className={
-                        !addedToCart[plant.name]
-                          ? "product-button"
-                          : "product-button-disabled"
+                        addedToCart[plant.name]
+                          ? "product-button-disabled"
+                          : "product-button"
                       }
                       onClick={() => handleAddedToCart(plant)}
                       disabled={addedToCart[plant.name]}
