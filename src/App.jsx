@@ -2,10 +2,8 @@ import { useState } from 'react';
 import ProductList from './ProductList';
 import './App.css';
 import AboutUs from './AboutUs';
-import Cart from './CartItem';
 
 function App() {
-  console.log('App component rendered', <Cart/>);
   
   const [showProductList, setShowProductList] = useState(false);
 
@@ -36,10 +34,6 @@ function App() {
       <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
         <ProductList />
       </div>
-      {/* <div className={`cart-container ${showProductList ? 'visible' : ''}`}>
-        <Cart onContinueShopping={() => setShowProductList(false)} />
-      </div>
-        <Cart/> */}
     </div>
   );
 }

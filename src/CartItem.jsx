@@ -4,11 +4,8 @@ import "./CartItem.css";
 
 // eslint-disable-next-line react/prop-types
 const Cart = ({ onContinueShopping }) => {
-  console.log("Cart component rendered");
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
-
-  console.log("cart [CartItem]", cart);
 
   const removeDollarSign = (cost) => {
     return cost.replace("$", "");
@@ -48,7 +45,6 @@ const Cart = ({ onContinueShopping }) => {
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    console.log("item [CartItem]", item);
     return parseFloat(removeDollarSign(item.cost)) * item.quantity;
   };
 

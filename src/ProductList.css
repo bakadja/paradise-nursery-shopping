@@ -51,13 +51,17 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 50px;
-    /* background-color: pink; */
-    /* justify-content: space-between; */
     padding: 20px;
     width: 100%;
     align-items: center;
     justify-content: center;
 }
+
+.product-grid h2 {
+    margin: 1rem 0;
+    text-align: center;
+}
+
 
 /* Product Card */
 .product-card {
@@ -91,24 +95,15 @@ body {
     font-size: 1.2rem;
     margin-bottom: 10px;
 }
+.product-description {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+}
 
 .product-image {
     max-width: 100%;
     height: 200px; /* Adjust height for better consistency */
-}
-
-.product-button {
-    background-color: #e74c3c;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    margin-top: 10px;
-}
-
-.product-button:hover {
-    background-color: #c0392b;
 }
 
 .product-button-disabled {
@@ -133,7 +128,6 @@ body {
 }
 .tag_home_link{
     display: flex;
-    /* background-color: red; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -175,7 +169,6 @@ body {
 }
 .cart_quantity_count{
     margin-top: 16px;
-    /* background-color: red; */
     margin-left: 27px;
     position: absolute;
     font-size: 29px;
@@ -185,7 +178,6 @@ body {
    display: flex;
    align-items: center;
    justify-content: center;
-    /* background-color: yellow; */
 }
 .plant_heading{
     width: 400px;

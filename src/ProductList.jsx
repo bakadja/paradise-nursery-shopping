@@ -1,24 +1,23 @@
 import { useState, useEffect } from "react";
 import "./ProductList.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "./CreatSlice";
-// import { useNavigate} from "react-router-dom";
 import Cart from "./CartItem";
 
 function ProductList() {
   const [addedToCart, setAddedToCart] = useState({});
-    const [showTarget, setShowTarget] = useState(false);
+  const [showTarget, setShowTarget] = useState(false);
   const dispatch = useDispatch();
-//   const navigate = useNavigate();
- 
+  const cart = useSelector((state) => state.cart.items);
 
-  // Affiche l'état `addedToCart` dans la console chaque fois qu'il change
+  // Reset addedToCart state when cart is empty
   useEffect(() => {
-    console.log("Added to cart [state productList ]:", addedToCart);
-  }, [addedToCart]);
+    cart.length == 0 && setAddedToCart({});
+  }, [cart]);
 
   const plantsArray = [
     {
+      id: 1,
       category: "Air Purifying Plants",
       plants: [
         {
@@ -66,6 +65,7 @@ function ProductList() {
       ],
     },
     {
+      id: 2,
       category: "Aromatic Fragrant Plants",
       plants: [
         {
@@ -114,6 +114,7 @@ function ProductList() {
       ],
     },
     {
+      id: 3,
       category: "Insect Repellent Plants",
       plants: [
         {
@@ -164,6 +165,7 @@ function ProductList() {
       ],
     },
     {
+      id: 4,
       category: "Medicinal Plants",
       plants: [
         {
@@ -211,6 +213,7 @@ function ProductList() {
       ],
     },
     {
+      id: 5,
       category: "Low Maintenance Plants",
       plants: [
         {
@@ -284,22 +287,17 @@ function ProductList() {
 
   const handleAddedToCart = (plant) => {
     dispatch(addItem(plant));
-    setAddedToCart((prevState) => ({ ...prevState,[plant.name]: true  }));
-    console.log("Added to cart:", plant);
+    setAddedToCart((prevState) => ({ ...prevState, [plant.name]: true }));
   };
 
- const showCartComponent = (event) => {
-   event.preventDefault();
+  const showCartComponent = (event) => {
+    event.preventDefault();
     setShowTarget(true);
-};
+  };
 
-const handleContinueShopping = () => {
+  const handleContinueShopping = () => {
     setShowTarget(false);
-   }
-
-if (showTarget) {
-     return <Cart onContinueShopping={handleContinueShopping} />;
- }
+  };
 
   return (
     <div>
@@ -309,6 +307,7 @@ if (showTarget) {
             <img
               src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png"
               alt=""
+              style={{ marginRight: "1rem" }}
             />
             <a href="/" style={{ textDecoration: "none" }}>
               <div>
@@ -321,13 +320,13 @@ if (showTarget) {
         <div style={styleObjUl}>
           <div>
             {" "}
-            <a href="#" style={styleA}>
+            <a href="/" style={styleA}>
               Plants
             </a>
           </div>
           <div>
             {" "}
-            <a href="#" style={styleA} onClick={showCartComponent}>
+            <a href="/" style={styleA} onClick={showCartComponent}>
               <h1 className="cart">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -343,9 +342,7 @@ if (showTarget) {
                     textAnchor="middle"
                     dominantBaseline="middle"
                   >
-                    {Object.keys(addedToCart).length > 0
-                      ? Object.keys(addedToCart).length
-                      : 0}
+                    {cart.reduce((total, item) => total + item.quantity, 0)}
                   </text>
                   <rect width="156" height="156" fill="none"></rect>
                   <circle cx="80" cy="216" r="12"></circle>
@@ -365,39 +362,43 @@ if (showTarget) {
           </div>
         </div>
       </div>
-      <div className="product-grid">
-        {plantsArray.map((category, index) => (
-          <div key={index}>
-            <h2 style={{ textAlign: "center" }}>{category.category}</h2>
-            <div className="product-list">
-              {category.plants.map((plant, index) => (
-                <div key={index} className="product-card">
-                  <img
-                    className="product-image"
-                    src={plant.image}
-                    alt={plant.name}
-                  />
-                  <h3 className="product-title">{plant.name}</h3>
-                  <p className="product-price">{plant.cost}</p>
-                  {/* {console.log('index [ProductList]',index)} */}
-                  <button
-                    // className="product-button"
-                    className={
-                      !addedToCart[plant.name]
-                        ? "product-button"
-                        : "product-button-disabled"
-                    }
-                    onClick={() => handleAddedToCart(plant)}
-                    disabled={addedToCart[plant.name]}
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              ))}
+
+      {showTarget ? (
+        <Cart onContinueShopping={handleContinueShopping} />
+      ) : (
+        <div className="product-grid">
+          {plantsArray.map((category) => (
+            <div key={category.id}>
+              <h2>{category.category}</h2>
+              <div className="product-list">
+                {category.plants.map((plant, index) => (
+                  <div key={index} className="product-card">
+                    <img
+                      className="product-image"
+                      src={plant.image}
+                      alt={plant.name}
+                    />
+                    <h3 className="product-title">{plant.name}</h3>
+                    <p className="product-price">{plant.cost}</p>
+                    <p className="product-description">{plant.description}</p>
+                    <button
+                      className={
+                        !addedToCart[plant.name]
+                          ? "product-button"
+                          : "product-button-disabled"
+                      }
+                      onClick={() => handleAddedToCart(plant)}
+                      disabled={addedToCart[plant.name]}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
